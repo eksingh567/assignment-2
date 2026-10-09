@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+  xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
+  xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+  xmlns:camunda="http://camunda.org/schema/1.0/dmn"
+  id="Definitions_LoanRiskDMN" name="Loan Risk Decisions" namespace="http://example.com/camunda/loan-risk">
+  <decision id="evaluate-loan-risk" name="Evaluate Loan Risk">
+    <decisionTable id="DecisionTable_LoanRisk" hitPolicy="U">
+      <input id="Input_CreditScore" label="creditScore">
+        <inputExpression id="InputExpression_CreditScore" typeRef="integer"><text>creditScore</text></inputExpression>
+      </input>
+      <input id="Input_LoanAmount" label="loanAmount">
+        <inputExpression id="InputExpression_LoanAmount" typeRef="double"><text>loanAmount</text></inputExpression>
+      </input>
+      <output id="Output_RiskTier" label="riskTier" name="riskTier" typeRef="string"/>
+      <output id="Output_ManualReview" label="requiresManualReview" name="requiresManualReview" typeRef="boolean"/>
+      <rule id="Rule_Low"><inputEntry id="LowCredit"><text>&gt;= 750</text></inputEntry><inputEntry id="LowAmount"><text>&lt;= 50000</text></inputEntry><outputEntry id="LowTier"><text>"LOW"</text></outputEntry><outputEntry id="LowManual"><text>false</text></outputEntry></rule>
+      <rule id="Rule_HighCredit"><inputEntry id="HighCredit"><text>&gt;= 750</text></inputEntry><inputEntry id="HighAmount"><text>&gt; 50000</text></inputEntry><outputEntry id="MedTier"><text>"MEDIUM"</text></outputEntry><outputEntry id="MedManual"><text>true</text></outputEntry></rule>
+      <rule id="Rule_MediumCredit"><inputEntry id="MediumCredit"><text>[600..749]</text></inputEntry><inputEntry id="MediumAmount"><text>-</text></inputEntry><outputEntry id="MediumTier"><text>"MEDIUM"</text></outputEntry><outputEntry id="MediumManual"><text>true</text></outputEntry></rule>
+      <rule id="Rule_High"><inputEntry id="VeryLowCredit"><text>&lt; 600</text></inputEntry><inputEntry id="VeryLowAmount"><text>-</text></inputEntry><outputEntry id="HighTier"><text>"HIGH"</text></outputEntry><outputEntry id="HighManual"><text>false</text></outputEntry></rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_LoanRisk">
+      <dmndi:DMNShape dmnElementRef="evaluate-loan-risk"><dc:Bounds x="160" y="80" width="220" height="100"/></dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
